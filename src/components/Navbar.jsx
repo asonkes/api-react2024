@@ -15,7 +15,7 @@ const Navbar = (props) => {
                             <Link className="nav-link" to="/customers">Clients</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Factures</a>
+                            <Link className="nav-link" to="/invoices">Factures</Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav ms-auto">
