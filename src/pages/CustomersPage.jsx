@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Pagination from "../components/Pagination";
 import customersAPI from "../services/customersAPI";
+import { Link } from "react-router-dom";
 
 const CustomersPage = (props) => {
     const [customers, setCustomers] = useState([])
@@ -49,9 +50,28 @@ const CustomersPage = (props) => {
 
     const paginatedCustomers = Pagination.getData(filteredCustomers, currentPage, itemsPerPage)
 
+    const handleDelete = async (id) => {
+        // pessimiste 
+        const originalCustomers = [...customers]
+
+        // optimiste
+        setCustomers(customers.filter(customer => customer.id !==id))
+
+        try{
+            await customersAPI.delete(id)
+        }catch(error)
+        {
+            setCustomers(originalCustomers)
+            // notif 
+        }
+    }
+
     return ( 
         <>
-            <h1>Liste des clients</h1>
+            <div className="d-flex justify-content-between align-items-center">
+                <h1>Liste des clients</h1>
+                <Link to="/customers/new" className="btn btn-primary mb-3">Créer un client</Link>
+            </div>
             <div className="form-group">
                 <input type="text" className="form-control" placeholder="Recherche..." onChange={handleSearch} value={search} />
             </div>
@@ -75,7 +95,7 @@ const CustomersPage = (props) => {
                             <td>{customer.firstName} {customer.lastName}</td>
                             <td>{customer.email}</td>
                             <td>{customer.company}</td>
-                            <td class="text-center">
+                            <td className="text-center">
                                 <span className="badge bg-secondary">
                                     {customer.invoices.length}
                                 </span>
@@ -87,11 +107,14 @@ const CustomersPage = (props) => {
                                 {customer.unpaidAmount.toLocaleString()}€
                             </td>
                             <td>
-                                <button className="btn btn-sm btn-danger">Supprimer</button>
+                                <Link className="btn btn-sm btn-warning m-1" to={`/customers/${customer.id}`}>Editer</Link>
+                                <button 
+                                    className="btn btn-sm btn-danger m-1"
+                                    disabled={customer.invoices.length > 0} 
+                                    onClick={() => handleDelete(customer.id)}>Supprimer</button>
                             </td>
                         </tr>
                     ))}
-                    
                 </tbody>
             </table>
             {
