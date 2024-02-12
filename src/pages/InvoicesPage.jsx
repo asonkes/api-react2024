@@ -1,7 +1,8 @@
 import { useState, useEffect} from 'react'
 import Pagination from '../components/Pagination';
-import invoicesAPI from '../services/InvoicesAPI';
+import invoicesAPI from '../services/invoicesAPI';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 // pour la traduction
 const STATUS_LABELS = {
@@ -77,7 +78,10 @@ const InvoicesPage = (props) => {
 
     return ( 
         <>
+        <div className="d-flex justify-content-between align-items-center">
             <h1>Liste des factures</h1>
+            <Link to="/invoices/new" className='btn btn-primary mb-3'>Créer une facture</Link>
+        </div>
             {/* filtre */}
             <div className="form-group">
                 <input type="text" className="form-control" placeholder='Rechercher...' value={search} onChange={handleSearch} />
@@ -106,7 +110,7 @@ const InvoicesPage = (props) => {
                                     </td>
                                     <td className="text-center">{invoice.amount.toLocaleString()}€</td>
                                     <td className="text-center">
-                                        <button className="btn btn-sm btn-success mx-3">Editer</button>
+                                        <Link to={`/invoices/${invoice.id}`} className="btn btn-sm btn-success mx-3">Editer</Link>
                                         <button onClick={() => handleDelete(invoice.id)} className='btn btn-sm btn-danger'>Supprimer</button>
                                     </td>
                                 </tr>

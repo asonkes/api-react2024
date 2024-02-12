@@ -10,6 +10,8 @@ import authAPI from "./services/authAPI";
 import PrivateRoute from './components/PrivateRoute';
 import AuthContext from './contexts/AuthContext';
 import CustomerPage from './pages/CustomerPage';
+import InvoicePage from './pages/InvoicePage';
+import RegisterPage from './pages/RegisterPage';
 
 authAPI.setup()
 
@@ -29,17 +31,23 @@ const App = () => {
         <main className="container pt-5">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/invoices/:id" element={
+              <PrivateRoute>
+                <InvoicePage />
+              </PrivateRoute>
+            } />
             <Route path="/invoices" element={
               <PrivateRoute>
                 <InvoicesPage />
               </PrivateRoute>
             } />
             <Route path="/customerpage" element={<CustomersPageWithPagination />} />
-            <Route path="/customer/:id" element={
-               <PrivateRoute>
-                  <CustomerPage />
-               </PrivateRoute>
-              } />
+            <Route path="/customers/:id" element={
+              <PrivateRoute>
+                <CustomerPage />
+              </PrivateRoute>
+            } />
             <Route path="/customers" element={
               <PrivateRoute>
                 <CustomersPage />

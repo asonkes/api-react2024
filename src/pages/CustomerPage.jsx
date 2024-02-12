@@ -99,6 +99,7 @@ const CustomerPage = (props) => {
                 />
                 <Field 
                     name="email"
+                    type="email"
                     label="Adresse E-mail"
                     placeholder='Adresse E-mail du client'
                     value={customer.email}
@@ -114,7 +115,8 @@ const CustomerPage = (props) => {
                     error={errors.company}
                 />
                 <div className="my-3">
-                    <button type="submit" className='btn btn-success'>Enregistrer</button>
+                    {editing ? <button type="submit" className='btn btn-warning me-1'>Modifier</button> : <button type="submit" className='btn btn-success me-1'>Créer</button>}
+                    
                     <Link to="/customers" className='btn btn-secondary'>Retour aux clients</Link>
                 </div>
 
