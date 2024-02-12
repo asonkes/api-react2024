@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import Pagination from "../components/Pagination";
 import customersAPI from "../services/customersAPI";
 import { Link } from "react-router-dom";
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
+import TableLoader from "../components/loaders/TableLoader";
 
 const CustomersPage = (props) => {
     const [customers, setCustomers] = useState([])
@@ -10,10 +11,14 @@ const CustomersPage = (props) => {
     // filtre
     const [search, setSearch] = useState("")
 
+    //loader
+    const [loading, setLoading] = useState(true)
+
     const fetchCustomers = async () => {
         try{
             const data = await customersAPI.findAll()
             setCustomers(data)
+            setLoading(false)
         }catch(error)
         {
             // notif à faire
@@ -79,7 +84,8 @@ const CustomersPage = (props) => {
             <div className="form-group">
                 <input type="text" className="form-control" placeholder="Recherche..." onChange={handleSearch} value={search} />
             </div>
-            <table className="table table-hover">
+            {(loading) ? (
+                <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -121,6 +127,11 @@ const CustomersPage = (props) => {
                     ))}
                 </tbody>
             </table>
+            ) : 
+            (
+                <TableLoader/>
+            )}
+            
             {
                 itemsPerPage < filteredCustomers.length && 
                 <Pagination 
