@@ -1,11 +1,12 @@
-import Axios from 'axios'
-import { jwtDecode } from 'jwt-decode'
+import Axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { LOGIN_API } from '../config';
 
 // Axios plus permformant que fetch...
 function authenticate(credentials)
 {
     return Axios
-            .post("http://apicourse.myepse.be/api/login_check", credentials)
+            .post(LOGIN_API, credentials)
             .then(response => response.data.token)
             .then(token => {
                 // mettre le token dans le localStorage

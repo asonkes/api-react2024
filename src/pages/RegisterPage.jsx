@@ -2,7 +2,8 @@ import { useState } from "react";
 import Field from "../components/forms/Field";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
+import { USERS_API } from "../config";
 
 const RegisterPage = (props) => {
     const navigate = useNavigate()
@@ -39,7 +40,7 @@ const RegisterPage = (props) => {
             return 
         }
         try{
-            await Axios.post("http://apicourse.myepse.be/api/users", user)
+            await Axios.post(USERS_API, user)
             setErrors({})
             toast.success("Vous êtes inscrit, vous pouvez vous connecté")
             navigate("/login", {replace:true})
