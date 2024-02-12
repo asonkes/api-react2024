@@ -2,6 +2,7 @@ import { useState } from "react";
 import Field from "../components/forms/Field";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import {toast} from 'react-toastify'
 
 const RegisterPage = (props) => {
     const navigate = useNavigate()
@@ -40,6 +41,7 @@ const RegisterPage = (props) => {
         try{
             await Axios.post("http://apicourse.myepse.be/api/users", user)
             setErrors({})
+            toast.success("Vous êtes inscrit, vous pouvez vous connecté")
             navigate("/login", {replace:true})
         }catch({response})
         {
@@ -50,10 +52,9 @@ const RegisterPage = (props) => {
                 })
                 setErrors(apiErrors)
             }
+            toast.error("des erreurs dans le formulaire")
         }
-
     }
-
 
     return ( 
         <>

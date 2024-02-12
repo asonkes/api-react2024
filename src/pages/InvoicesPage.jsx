@@ -3,7 +3,8 @@ import Pagination from '../components/Pagination';
 import invoicesAPI from '../services/invoicesAPI';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify'
+ 
 // pour la traduction
 const STATUS_LABELS = {
     PAID: "Payée",
@@ -33,6 +34,7 @@ const InvoicesPage = (props) => {
         {
             console.error(error.response)
             // notification à faire
+            toast.error("Erreur lors du chargement des factures")
         }
     }
 
@@ -64,10 +66,12 @@ const InvoicesPage = (props) => {
 
         try{
             await invoicesAPI.delete(id)
+            toast.warning("La facture "+id+" a bien été suprimée")
         }catch(error)
         {
             // notif à faire 
             setInvoices(originalInvoices)
+            toast.error("Une erreur est survenue")
         }
     }
 
